@@ -16,6 +16,6 @@ namespace Catalog.API.Products.GetProducts
 
             return new GetProductResult(products);
         }
-    }
+    } 
 }
 

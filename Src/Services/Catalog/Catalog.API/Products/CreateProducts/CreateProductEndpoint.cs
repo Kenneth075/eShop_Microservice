@@ -11,11 +11,11 @@ namespace Catalog.API.Products.CreateProducts
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapPost("/Products", async (CreateProductRequest request, ISender send) =>
+            app.MapPost("/Products", async (CreateProductRequest request, ISender sender) =>
             {
                 var command = request.Adapt<CreateProductsCommand>();
 
-                var result = await send.Send(command);
+                var result = await sender.Send(command);
 
                 var response = result.Adapt<CreateProductResponse>();
 
