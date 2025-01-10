@@ -1,10 +1,11 @@
 using BuildingBlock.Behaviour;
 using BuildingBlock.Exceptions.Handler;
 using Carter;
+using Catalog.API.Data;
 using FluentValidation;
+using HealthChecks.UI.Client;
 using Marten;
-using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,7 +30,16 @@ builder.Services.AddMarten(options =>
     options.AutoCreateSchemaObjects = Weasel.Core.AutoCreate.All;
 }).UseLightweightSessions();
 
+if(builder.Environment.IsDevelopment())
+{
+    builder.Services.InitializeMartenWith<CatalogInitiaData>();
+}
+    
+
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
+
+builder.Services.AddHealthChecks()
+    .AddNpgSql(builder.Configuration.GetConnectionString("DbCon")!);
 
 var app = builder.Build();
 
@@ -70,5 +80,11 @@ using (var scope = app.Services.CreateScope())
 app.MapCarter();
 
 app.UseExceptionHandler(options => { });
+
+app.UseHealthChecks("/Health",
+    new HealthCheckOptions
+    {
+        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+    });
 
 app.Run();

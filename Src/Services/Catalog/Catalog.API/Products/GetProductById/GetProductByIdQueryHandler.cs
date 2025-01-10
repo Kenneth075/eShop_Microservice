@@ -7,11 +7,10 @@ namespace Catalog.API.Products.GetProductById
 {
     public record GetProductQuery(Guid Id) : IQuery<GetProductResult>;
     public record GetProductResult(Product Product);
-    public class GetProductByIdQueryHandler(IDocumentSession session, ILogger<GetProductByIdQueryHandler> logger) : IQueryHandler<GetProductQuery, GetProductResult>
+    public class GetProductByIdQueryHandler(IDocumentSession session) : IQueryHandler<GetProductQuery, GetProductResult>
     {
         public async Task<GetProductResult> Handle(GetProductQuery request, CancellationToken cancellationToken)
         {
-            logger.LogInformation("GetProductByIdQueryHandler.Handler called {@Query}", request);
             var product = await session.LoadAsync<Product>(request.Id, cancellationToken);
             return product == null ? throw new ProductNotFoundException(request.Id) : new GetProductResult(product);
         }

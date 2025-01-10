@@ -8,11 +8,11 @@ namespace Catalog.API.Products.Updateproduct
     public record UpdateProductCommand(Guid Id, string Name, List<string> Category, string Description, string ImageFile, decimal Price) :
         ICommand<UpdateProductResult>;
     public record UpdateProductResult(bool IsSuccess);
-    internal class UpdateProductCommandHandler(IDocumentSession session, ILogger<UpdateProductCommandHandler>logger) : ICommandHandler<UpdateProductCommand, UpdateProductResult>
+    internal class UpdateProductCommandHandler(IDocumentSession session) : ICommandHandler<UpdateProductCommand, UpdateProductResult>
     {
         public async Task<UpdateProductResult> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
-            logger.LogInformation("UpdateProductCommandHandler. Handle called {reques}", request);
+            //logger.LogInformation("UpdateProductCommandHandler. Handle called {reques}", request);
 
             var product = await session.LoadAsync<Product>(request.Id, cancellationToken);
             if (product == null)
