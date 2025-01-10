@@ -22,7 +22,7 @@ namespace BuildingBlock.Behaviour
             time.Stop();
 
             var timeTaken = time.Elapsed;
-            if (timeTaken.Seconds > 3) //If the requested time is greater 3 seconds
+            if (timeTaken.Seconds > 3) 
                 logger.LogInformation("[PERFORMANCE], The request {request} took {timeTake}", typeof(TRequest).Name, timeTaken);
 
             logger.LogInformation("[END], Handle Request {Request} with {Response}", typeof(TRequest).Name, typeof(TResponse).Name);
