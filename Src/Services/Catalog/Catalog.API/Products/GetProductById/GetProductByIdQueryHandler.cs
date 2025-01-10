@@ -13,7 +13,7 @@ namespace Catalog.API.Products.GetProductById
         {
             logger.LogInformation("GetProductByIdQueryHandler.Handler called {@Query}", request);
             var product = await session.LoadAsync<Product>(request.Id, cancellationToken);
-            return product == null ? throw new ProductNotFoundException() : new GetProductResult(product);
+            return product == null ? throw new ProductNotFoundException(request.Id) : new GetProductResult(product);
         }
     }
 }

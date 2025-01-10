@@ -16,7 +16,7 @@ namespace Catalog.API.Products.Updateproduct
 
             var product = await session.LoadAsync<Product>(request.Id, cancellationToken);
             if (product == null)
-                 throw new ProductNotFoundException();
+                 throw new ProductNotFoundException(request.Id);
 
             product.Name = request.Name;
             product.Description = request.Description;

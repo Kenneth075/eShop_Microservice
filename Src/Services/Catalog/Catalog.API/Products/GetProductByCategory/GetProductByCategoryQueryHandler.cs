@@ -15,7 +15,7 @@ namespace Catalog.API.Products.GetProductByCategory
 
             var products = await session.Query<Product>().Where(p => p.Category.Contains(query.Category)).ToListAsync();
             
-            return products == null ? throw new ProductNotFoundException() : new GetProductByCategoryResult(products);
+            return products == null ? null! : new GetProductByCategoryResult(products);
         }
     }
 }
