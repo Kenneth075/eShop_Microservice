@@ -4,7 +4,7 @@ using BuildingBlock.CQRS;
 namespace Basket.API.Basket.GetBasket
 {
     public record GetBasketQuery(string UserName) : IQuery<GetBasketResult>;
-    public record GetBasketResult(ShoppingCart cart);
+    public record GetBasketResult(ShoppingCart Cart);
     public class GetBasketQueryHandler : IQueryHandler<GetBasketQuery, GetBasketResult>
     {
         public async Task<GetBasketResult> Handle(GetBasketQuery query, CancellationToken cancellationToken)
@@ -12,7 +12,7 @@ namespace Basket.API.Basket.GetBasket
             //Todo
             //Get basket from database using Repository pattern.
 
-            return new GetBasketResult(new ShoppingCart("Use"));
+            return new GetBasketResult(new ShoppingCart("User"));
         }
     }
 }

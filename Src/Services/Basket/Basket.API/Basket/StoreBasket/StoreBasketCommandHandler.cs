@@ -15,7 +15,7 @@ namespace Basket.API.Basket.StoreBasket
             //TODO: saving basket to database.
             //TODO: Update Cache.
 
-            return new StoreBasketResult("Username");
+            return new StoreBasketResult("User");
         }
     }
 }

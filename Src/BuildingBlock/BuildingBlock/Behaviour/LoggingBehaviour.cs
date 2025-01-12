@@ -15,7 +15,7 @@ namespace BuildingBlock.Behaviour
                 typeof(TRequest).Name, typeof(TResponse).Name, request);
 
             var time = new Stopwatch();
-            time.Start();
+             time.Start();
 
             var response = await next();
 

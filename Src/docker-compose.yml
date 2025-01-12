@@ -8,5 +8,9 @@ services:
   catalog.database:
     image: postgres:16.6
 
+  basket.database:
+    image: postgres:16.6
+
 volumes:
   postgres_data:
+  postgres_basket:
