@@ -7,7 +7,7 @@ services:
       - POSTGRES_PASSWORD=postgres
     restart: always
     ports:
-      - 5432:5432
+      - 5434:5432
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
@@ -22,18 +22,41 @@ services:
       - 5433:5432
     volumes:
       - postgres_basket:/var/lib/postgresql/data
+ 
+  distributedcache:
+    container_name: distributedcache
+    restart: always
+    ports:
+      - "6379:6379"
+
 
   catalog.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
       - ASPNETCORE_HTTPS_PORTS=8081
-      - ConnectionStrings="Host=catalog.database;Port=5432;Database=catalogDB;Username=postgres;Password=postgres;Include Error Detail=true"
+      - ConnectionStrings__DbCon=Server=catalog.database;Port=5432;Database=catalogDB;Username=postgres;Password=postgres;Include Error Detail=true
     depends_on:
       - catalog.database
     ports:
       - "6000:8080"
       - "6060:8081"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+  basket.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+      - ConnectionStrings__DbCon=Server=basket.database;Port=5432;Database=basketDB;Username=postgres;Password=postgres;Include Error Detail=true
+      - ConnectionStrings__Redis=distributedcache:6379 
+    depends_on:
+      - basket.database
+      - distributedcache
+    ports:
+      - "6001:8080"
+      - "6061:8081"
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
