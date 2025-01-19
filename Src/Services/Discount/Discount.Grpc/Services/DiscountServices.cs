@@ -58,7 +58,7 @@ namespace Discount.Grpc.Services
             var coupon = await dbContext.Coupons.FirstOrDefaultAsync(x => x.ProductName == request.ProductName);
             if (coupon is null)
                 throw new RpcException(new Status(StatusCode.NotFound, "Product not found"));
-
+ 
             dbContext.Coupons.Remove(coupon);
             await dbContext.SaveChangesAsync();
 
