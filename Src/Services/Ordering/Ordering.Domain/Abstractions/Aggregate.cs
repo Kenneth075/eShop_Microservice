@@ -12,6 +12,7 @@ namespace Ordering.Domain.Abstractions
             IDomainEvent[] dequenedEvent = _domainEvents.ToArray();
 
             _domainEvents.Clear();
+
             return dequenedEvent;
         }
 
