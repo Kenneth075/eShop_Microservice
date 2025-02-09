@@ -26,8 +26,10 @@ namespace Ordering.Infrastructure.Data.DatabaseExtension
                 var address = Address.Of("Kenny", "Joe", "sam@gmail.com", "Lagos Island", "Nigeria", "Lagos", "100001");
                 var payment = Payment.Of("Kenny Joe", "554593438595839", "054", "10/11/2025", 1);
 
-                var order = Order.Create(OrderId.Of(new Guid("4ec40d76-a58d-4887-a5f1-6f03766c66f9")), CustomerId.Of(
-                    new Guid("424903d9-10b5-435f-8874-767e4c9118fc")), OrderName.Of("Ord_1"),
+                var order = Order.Create(
+                    OrderId.Of(Guid.NewGuid()), 
+                    CustomerId.Of(new Guid("d0321ed0-3afd-425f-9ddf-7e2695992543")),
+                    OrderName.Of("Ord_1"),
                     billingAddress: address,
                     shippingAddress: address,
                     payment);

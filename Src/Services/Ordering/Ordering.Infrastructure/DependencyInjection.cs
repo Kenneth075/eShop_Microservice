@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Ordering.Infrastructure.Data;
+using Ordering.Infrastructure.Data.Interceptor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,7 @@ namespace Ordering.Infrastructure
 
             services.AddDbContext<ApplicationDbContext>(option =>
             {
+                option.AddInterceptors(new AuditableEntityInterceptor());
                 option.UseSqlServer(connectionString);
             });
 
